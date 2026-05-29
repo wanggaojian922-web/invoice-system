@@ -132,21 +132,16 @@
         };
 
         // 生成二维码：拼接当前地址 + 表单参数
-        function createQrcode() {
-            let link = window.location.href;
-            // 清除原有参数，追加表单标识
-            if (link.indexOf('?') > -1) {
-                link = link.split('?')[0] + '?form=1';
-            } else {
-                link += '?form=1';
-            }
-            // 生成二维码
-            QRCode.toDataURL(link, { width: 320, margin: 1 }, function (err, imgUrl) {
-                if (err) return console.error(err)
-                document.getElementById('qrcode').innerHTML = `<img src="${imgUrl}" alt="扫码开票">`;
-            })
-        }
+function createQrcode() {
+    const baseUrl = window.location.origin + window.location.pathname;
+    const link = baseUrl + '?form=1';
 
+    QRCode.toDataURL(link, { width: 320, margin: 1 }, function (err, imgUrl) {
+        if (err) return console.error(err)
+        document.getElementById('qrcode').innerHTML =
+            `<img src="${imgUrl}" alt="扫码开票">`;
+    });
+}
         // 表单提交
         document.getElementById('invoiceForm').addEventListener('submit', function (e) {
             e.preventDefault();
